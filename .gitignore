@@ -1,0 +1,61 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+*.egg
+
+# Jupyter Notebook checkpoints (se usi notebook per training o test)
+.ipynb_checkpoints/
+
+# Rasa-related
+*.db
+*.json
+*.lock
+*.pyc
+*.pkl
+*.npy
+*.log
+*.tmp
+*.tar.gz
+*.tar
+*.zip
+*.gz
+.rasa/
+.events.json
+
+# Model files
+models/
+
+# Rasa trained data (può essere rigenerata)
+*.tar.gz
+
+# Environment / virtualenv
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+
+# PyCharm
+.idea/
+
+# Test outputs
+coverage.xml
+htmlcov/
+.cache/
+.pytest_cache/
+nosetests.xml
+test-results.xml
+
+# Logs
+*.log
+logs/

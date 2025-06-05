@@ -1,0 +1,22 @@
+version: "3.1"
+
+nlu:
+- intent: mostra_contenuto
+  examples: |
+    - mostrami cosa c'è nel disco [C](disco) nella cartella [AMD](cartella)
+    - mostrami cosa c'è nel disco [R](disco) nella cartella [assistente_vocale\dataset](cartella)
+    - apri la cartella [Windows\System32](cartella) nel disco [C](disco)
+    - cosa c'è in [D](disco) nella cartella [Documenti\Report](cartella)
+    - mostrami il contenuto della cartella [Programmi\MyApp](cartella) nel disco [C](disco)
+
+- intent: elimina_file
+  examples: |
+    - elimina il file [C:\\Users\\User\\file.txt](file)
+    - cancella [D:\\Documenti\\report.docx](file)
+    - [C:\\Test\\abc.txt](file)
+
+- intent: sposta_file
+  examples: |
+    - sposta il file [C:\\Users\\User\\file.txt](file) in [D:\\Backup](destinazione)
+    - muovi [D:\\Download\\immagine.png](file) in [E:\\Immagini](destinazione)
+    - copia [F:\\temp\\file.doc](file) in [G:\\Archivio](destinazione)
