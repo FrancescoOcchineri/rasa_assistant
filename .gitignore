@@ -5,7 +5,7 @@ __pycache__/
 *.egg-info/
 *.egg
 
-# Jupyter Notebook checkpoints (se usi notebook per training o test)
+# Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
 # Rasa-related
@@ -27,7 +27,7 @@ __pycache__/
 # Model files
 models/
 
-# Rasa trained data (può essere rigenerata)
+# Rasa trained data 
 *.tar.gz
 
 # Environment / virtualenv
