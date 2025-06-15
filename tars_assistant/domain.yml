@@ -1,0 +1,64 @@
+version: "3.1"
+
+intents:
+  - mostra_contenuto
+  - elimina_file
+  - sposta_file
+  - greet
+  - affirm
+  - deny
+  - goodbye
+  - mood_great
+  - mood_unhappy
+
+entities:
+  - disco
+  - cartella
+  - file
+  - destinazione
+
+slots:
+  disco:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: disco
+  cartella:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: cartella
+  file:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: file
+  destinazione:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: destinazione
+
+responses:
+  utter_greet:
+    - text: "Ciao. Sono TARS. Ironia al 90%, efficienza al 100%. Come posso aiutarti?"
+
+  utter_goodbye:
+    - text: "A presto, terrestre. Non fare esplodere nulla mentre non ci sono."
+
+  utter_cheer_up:
+    - text: "L'umore è una variabile irrilevante per il completamento della missione. Ma capisco, forza."
+
+  utter_did_that_help:
+    - text: "Soddisfatto della risposta o devo attivare la modalità 'terapia emozionale'?"
+
+  utter_happy:
+    - text: "Perfetto. La tua felicità è registrata. Missione: continua."
+
+  utter_ask_rephrase:
+    - text: "Non ho capito. Puoi riformulare? Anche i robot hanno dei limiti, purtroppo."
+
+actions:
+  - action_mostra_contenuto
+  - action_elimina_file
+  - action_sposta_file

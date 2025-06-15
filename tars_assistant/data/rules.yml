@@ -1,0 +1,52 @@
+version: "3.1"
+
+rules:
+
+# Regole funzionali
+- rule: Mostra contenuto cartella
+  steps:
+    - intent: mostra_contenuto
+    - action: action_mostra_contenuto
+
+- rule: Elimina file
+  steps:
+    - intent: elimina_file
+    - action: action_elimina_file
+
+- rule: Sposta file
+  steps:
+    - intent: sposta_file
+    - action: action_sposta_file
+
+# Conversazione base stile TARS
+
+- rule: Saluto iniziale
+  steps:
+    - intent: greet
+    - action: utter_greet
+
+- rule: Addio
+  steps:
+    - intent: goodbye
+    - action: utter_goodbye
+
+- rule: Umore positivo
+  steps:
+    - intent: mood_great
+    - action: utter_happy
+
+- rule: Umore negativo
+  steps:
+    - intent: mood_unhappy
+    - action: utter_cheer_up
+    - action: utter_did_that_help
+
+- rule: Conferma (dopo mood_unhappy)
+  steps:
+    - intent: affirm
+    - action: utter_happy
+
+- rule: Negazione (dopo mood_unhappy)
+  steps:
+    - intent: deny
+    - action: utter_goodbye

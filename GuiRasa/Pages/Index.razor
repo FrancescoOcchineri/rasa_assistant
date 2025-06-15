@@ -1,0 +1,65 @@
+﻿@page "/"
+
+@inject RasaService RasaService
+
+<h3 class="text-center titleChat" style="font-weight: bold; color: white;">Chat</h3>
+
+<div class="d-flex justify-content-center mt-4">
+    <textarea id="textUser" @bind="userMessage" rows="6" cols="150" placeholder="@placeholderText"></textarea>
+</div>
+
+<div class="d-flex justify-content-center mt-3">
+    <button @onclick="SendMessage">Invia</button>
+    <button @onclick="ClearChat" style="margin-left: 10px;">Pulisci</button>
+</div>
+
+<div class="d-flex justify-content-center" style="margin-top: 20px; display: flex; flex-direction: column; align-items: center; color: white">
+    @foreach (var message in chat)
+    {
+        var bubbleClass = "bubble-terminal";
+        var textClass = message.Role == "TARS" ? "terminal-matrix" : "terminal-user";
+
+        <div class="@bubbleClass">
+            <b>@message.Role:</b>
+            <div class="@textClass">
+                @message.Text
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .bubble-terminal {
+        background-color: #1e1e1e;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        max-width: 70%;
+        font-family: 'Courier New', Courier, monospace;
+        width: 100%;
+    }
+
+    .terminal-user {
+        background-color: #2d2d2d;
+        color: #9cdcfe;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        white-space: pre-wrap;
+    }
+
+    .terminal-matrix {
+        background-color: #000000;
+        color: #00ff00;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        white-space: pre-wrap;
+        box-shadow: inset 0 0 10px #00ff0020;
+    }
+</style>
+
+
+
+
+

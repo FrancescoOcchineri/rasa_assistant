@@ -1,0 +1,12 @@
+R:\Utente\rasa\GuiRasa\obj\Release\net6.0\PubTmp\Out\GuiRasa.exe
+R:\Utente\rasa\GuiRasa\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
+R:\Utente\rasa\GuiRasa\obj\Release\net6.0\PubTmp\Out\appsettings.json
+R:\Utente\rasa\GuiRasa\obj\Release\net6.0\PubTmp\Out\GuiRasa.dll
+R:\Utente\rasa\GuiRasa\obj\Release\net6.0\PubTmp\Out\GuiRasa.deps.json
+R:\Utente\rasa\GuiRasa\obj\Release\net6.0\PubTmp\Out\GuiRasa.runtimeconfig.json
+R:\Utente\rasa\GuiRasa\obj\Release\net6.0\PubTmp\Out\GuiRasa.pdb
+R:\Utente\rasa\GuiRasa\obj\Release\net6.0\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll
+R:\Utente\rasa\GuiRasa\obj\Release\net6.0\PubTmp\Out\System.IO.Pipelines.dll
+R:\Utente\rasa\GuiRasa\obj\Release\net6.0\PubTmp\Out\System.Net.Http.Json.dll
+R:\Utente\rasa\GuiRasa\obj\Release\net6.0\PubTmp\Out\System.Text.Encodings.Web.dll
+R:\Utente\rasa\GuiRasa\obj\Release\net6.0\PubTmp\Out\System.Text.Json.dll
