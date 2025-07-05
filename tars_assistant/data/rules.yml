@@ -1,5 +1,3 @@
-version: "3.1"
-
 rules:
 
 # Regole funzionali
@@ -19,7 +17,6 @@ rules:
     - action: action_sposta_file
 
 # Conversazione base stile TARS
-
 - rule: Saluto iniziale
   steps:
     - intent: greet
@@ -50,3 +47,9 @@ rules:
   steps:
     - intent: deny
     - action: utter_goodbye
+
+# Fallback per frasi non riconosciute
+- rule: Fallback to Ollama
+  steps:
+    - intent: nlu_fallback
+    - action: action_generate_with_ollama

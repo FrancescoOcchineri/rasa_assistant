@@ -68,3 +68,12 @@ nlu:
     - sposta il file [C:\\Users\\User\\file.txt](file) in [D:\\Backup](destinazione)
     - muovi [D:\\Download\\immagine.png](file) in [E:\\Immagini](destinazione)
     - copia [F:\\temp\\file.doc](file) in [G:\\Archivio](destinazione)
+
+- intent: nlu_fallback
+  examples: |
+    - Non ho capito, riprova.
+    - Scusa, non sono sicuro di aver capito.
+    - Puoi riformulare la domanda?
+    - Questo supera le mie capacità attuali.
+    - Mi dispiace, non riesco a gestire questa richiesta.
+

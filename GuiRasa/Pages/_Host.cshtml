@@ -2,7 +2,37 @@
 @namespace GuiRasa.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    Layout = "_Layout";
+    Layout = null;
 }
 
-<component type="typeof(App)" render-mode="ServerPrerendered" />
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GUI Rasa</title>
+
+    <!-- Bootstrap e CSS locali -->
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/site.css" rel="stylesheet" />
+
+    <!-- Font monospace -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+
+    <!-- Prism Dracula Theme -->
+    <link href="https://cdn.jsdelivr.net/npm/prism-themes/themes/prism-dracula.min.css" rel="stylesheet" />
+
+    <!-- Prism core script -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+
+    <!-- Evidenziazione per log o shell -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+<body>
+    <app>
+        <component type="typeof(App)" render-mode="ServerPrerendered" />
+    </app>
+
+    <script src="_framework/blazor.server.js"></script>
+</body>
+</html>

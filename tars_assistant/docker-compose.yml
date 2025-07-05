@@ -1,24 +1,25 @@
-version: '3.0'
-
 services:
   rasa:
     image: rasa/rasa:3.6.10
     ports:
       - "5005:5005"
     volumes:
-      - ./:/app
+      - R:/Utente/rasa/tars_assistant:/app 
+      - R:/Utente/rasa/tars_assistant/logs:/app/logs  
     command:
       - run
       - --enable-api
       - --cors
       - "*"
       - --debug
+      - --log-file
+      - /app/logs/rasa.log
     restart: always
     depends_on:
       - action_server
 
   action_server:
-    image: rasa/rasa-sdk:3.6.0
+    build: .
     ports:
       - "5055:5055"
     volumes:
@@ -28,3 +29,13 @@ services:
       - "R:/:/mnt/r"
     restart: always
 
+  ollama:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+volumes:
+  ollama_data:

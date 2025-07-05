@@ -58,7 +58,12 @@ responses:
   utter_ask_rephrase:
     - text: "Non ho capito. Puoi riformulare? Anche i robot hanno dei limiti, purtroppo."
 
+  utter_fallback:
+    - text: "Mi spiace, non sono programmato per questo. Puoi riformulare?"
+
 actions:
   - action_mostra_contenuto
   - action_elimina_file
   - action_sposta_file
+  - action_generate_with_ollama
+

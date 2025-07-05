@@ -1,3 +1,5 @@
+using GuiRasa;
+using GuiRasa.Service;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System.Net.Http;
@@ -10,6 +12,10 @@ builder.Services.AddServerSideBlazor();
 
 // Servizio per la comunicazione con Rasa
 builder.Services.AddHttpClient<RasaService>();
+
+// Servizio per la lettura dei log di Rasa  
+builder.Services.AddSingleton(sp =>
+    new LogRasaService(RasaConfig.FileLogPath));
 
 // Aggiungi HttpClient come servizio per Blazor Server
 builder.Services.AddHttpClient();
