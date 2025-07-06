@@ -2,12 +2,23 @@
 
 <PageTitle>Respeaker</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<div class="layout-container">
+    <aside class="sidebar @(SidebarVisible ? "open" : "closed")">
+        <div class="sidebar-header">
+            <h3>RasaTest</h3>
+            <button class="sidebar-button" @onclick="ToggleSidebar">×</button>
+        </div>
+        <div class="sidebar-body mt-3">
+            <button @onclick="GoHome">Home</button>
+            <button @onclick="GoLog" class="mt-2">Log</button>
+        </div>
+    </aside>
 
-    <main>
+    <main class="main-content">
+        @if (!SidebarVisible)
+        {
+            <button class="open-sidebar-button text-black" @onclick="ToggleSidebar">☰</button>
+        }
 
         <article class="content px-4">
             @Body

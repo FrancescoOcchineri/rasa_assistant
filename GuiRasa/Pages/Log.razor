@@ -1,0 +1,35 @@
+﻿@page "/log"
+
+<h3 class="ms-5" style="color: #f8f8f2; font-family: monospace;">
+    Log Rasa 
+</h3>
+
+<div class="log-wrapper ms-5">
+    <pre @ref="logElement" class="log-container">
+        @((MarkupString)logContent)
+    </pre>
+</div>
+
+<style>
+    .log-wrapper {
+        padding: 1rem;
+        height: calc(100vh - 120px); 
+        box-sizing: border-box;
+    }
+
+    .log-container {
+        height: 100%;
+        max-width: 100%;
+        overflow-y: auto;
+        overflow-x: auto;
+        background-color: #282a36;
+        color: #f8f8f2;
+        padding: 1rem;
+        font-family: monospace;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.4);
+        box-sizing: border-box;
+        white-space: pre-wrap; 
+        word-break: break-word; 
+    }
+</style>

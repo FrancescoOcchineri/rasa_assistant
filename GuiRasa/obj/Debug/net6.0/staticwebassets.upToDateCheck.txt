@@ -11,4 +11,5 @@ wwwroot\css\open-iconic\ICON-LICENSE
 wwwroot\css\open-iconic\README.md
 wwwroot\favicon.ico
 wwwroot\img\logo.PNG
+wwwroot\js\custom.js
 wwwroot\css\site.css
