@@ -1,14 +1,9 @@
-# Python cache
+# ========== PYTHON / RASA ==========
 __pycache__/
 *.py[cod]
 *.so
 *.egg-info/
 *.egg
-
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-
-# Rasa-related
 *.db
 *.json
 *.lock
@@ -24,13 +19,53 @@ __pycache__/
 .rasa/
 .events.json
 
-# Model files
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Rasa trained data and models
 models/
 
-# Rasa trained data 
-*.tar.gz
+# Rasa config file (if generated dynamically)
+RasaConfig.cs
 
-# Environment / virtualenv
+# ========== .NET / BLAZOR SERVER ==========
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+*.dbmdl
+*.pidb
+*.cache/
+*.pdb
+*.publish/
+Generated\ Files/
+*.deps.json
+*.runtimeconfig.json
+
+# Razor component generated files
+**/Generated/**/*.cs
+**/*.g.cs
+**/*.g.i.cs
+**/*.razor.g.cs
+**/*.razor.g.i.cs
+
+# local settings
+appsettings.Development.json
+
+# publish profiles
+Properties/PublishProfiles/
+
+# ========== VISUAL STUDIO ==========
+.vscode/
+.idea/
+*.swp
+*.bak
+*.tmp
+
+# ========== ENVIRONMENTS ==========
 .env
 .venv
 env/
@@ -39,16 +74,14 @@ ENV/
 env.bak/
 venv.bak/
 
-# VSCode
-.vscode/
-
-# macOS
+# ========== OS-SPECIFIC ==========
 .DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
 
-# PyCharm
-.idea/
-
-# Test outputs
+# ========== TEST OUTPUTS ==========
 coverage.xml
 htmlcov/
 .cache/
@@ -56,9 +89,6 @@ htmlcov/
 nosetests.xml
 test-results.xml
 
-# Logs
+# ========== LOGS ==========
 *.log
 logs/
-
-# File 
-RasaConfig.cs
