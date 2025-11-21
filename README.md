@@ -2,7 +2,7 @@
 
 Un assistente vocale intelligente basato su **Rasa**, con gestione di file, conversazioni di base e fallback per input non riconosciuti.  
 
-![Rasa](https://img.shields.io/badge/Rasa-3.6.10-blue) ![Docker](https://img.shields.io/badge/Docker-Enabled-green) ![Python](https://img.shields.io/badge/Python-3.11-yellow) 
+![Rasa](https://img.shields.io/badge/Rasa-3.6.10-blue) ![Docker](https://img.shields.io/badge/Docker-Enabled-green) ![Python](https://img.shields.io/badge/Python-3.11-yellow) ![Blazor](https://img.shields.io/badge/Blazor-GUI-purple)
 
 ---
 
@@ -14,16 +14,16 @@ Un assistente vocale intelligente basato su **Rasa**, con gestione di file, conv
 - **`rules.yml`** → Regole per associare intent ad azioni.  
 - **`domain.yml`** → Slot, utterances, intents e risposte predefinite.  
 - **`docker-compose.yml`** → Configurazione dei container Docker.  
+- **`GuiRasa/`** → Blazor Server GUI con log live, scroll automatico e codifica colori.
 
 ---
 
 ## 🏗 Architettura dei container
 
-┌─────────────┐ ┌─────────────────┐
-│ RASA │ <---> │ Action Server │
-│ NLU+Dialog │ │ Custom Actions │
-└─────────────┘ └─────────────────┘
-
+┌─────────────┐ ┌─────────────────┐  
+│ RASA │ <---> │ Action Server │  
+│ NLU+Dialog │ │ Custom Actions │  
+└─────────────┘ └─────────────────┘  
 
 - **Rasa**: gestisce NLU e dialoghi, monta cartelle progetto e log.  
 - **Action Server**: esegue le custom actions, monta cartelle locali per operazioni sui file.  
@@ -81,23 +81,35 @@ Un assistente vocale intelligente basato su **Rasa**, con gestione di file, conv
 
 ## 💬 Flusso della conversazione
 
-[Utente]
-│
-▼
-[Rasa NLU] --> Determina intent & entities
-│
-▼
-[RulePolicy] --> Invoca azione appropriata
-│
-▼
-[Action Server] --> Risposta all'utente
-▲
-│
+[Utente]  
+│  
+▼  
+[Rasa NLU] → Determina intent & entities  
+│  
+▼  
+[RulePolicy] → Invoca azione appropriata  
+│  
+▼  
+[Action Server] → Risposta all'utente  
+▲  
+│  
 Fallback se intent non riconosciuto
-
 
 - Include fallback per input non riconosciuti.  
 - Gestisce conversazioni base stile TARS (saluti, addii, umore, conferme/negazioni).  
+
+---
+
+## 🖥 GUI Blazor e log live
+
+- Invia messaggi a Rasa e visualizza risposte in tempo reale.  
+- Log Rasa aggiornati nella GUI:
+  - Input utente: verde brillante  
+  - Risposta bot: giallo  
+- Scroll automatico all’ultima riga dei log  
+- Finestra log alta quanto la pagina e larga quanto la visualizzazione  
+- Supporto syntax highlighting e tema Dracula tramite CSS  
+- Log direttamente letti da `logs/rasa.log` con aggiornamento live  
 
 ---
 
@@ -113,4 +125,24 @@ Fallback se intent non riconosciuto
 ## 🚀 Aggiornamento dei container
 
 - Modifiche ad `actions.py` → riavviare **Action Server**.  
-- Modifiche Dockerfile → ricostruire il container. 
+- Modifiche Dockerfile → ricostruire il container.  
+- Log e GUI aggiornati automaticamente senza riavvio della GUI.  
+
+---
+
+## 🌐 Integrazione Home Assistant, NGINX e VPS
+
+### Architettura
+
+┌─────────────┐ ┌─────────────┐ ┌───────────┐
+│ Home │ <---> │ NGINX │ <---> │ VPS │
+│ Assistant │ │ Reverse │ │ Container │
+│ (Web UI / │ │ Proxy │ │ RASA + │
+│ MQTT / API) │ └─────────────┘ │ Actions) │
+└─────────────┘ └───────────┘
+
+- **VPS**: ospita i container Docker con Rasa, Action Server, GUI Blazor e log, provider utilizzato: **Webdock**.  
+- **Home Assistant**: installato come **Home Assistant OS su Raspberry Pi 5**, con il quale interagisce TARS tramite API REST con un custom component.  
+- **Audio Input**: ReSpeaker Lite - USB 2-Mic Array with Onboard AI Audio Processing Algorithms di SeeedStudio per input vocale.  
+- **Dominio**: sia **GuiRasa** sia **Home Assistant** sono hostati su un dominio personale.  
+- **NGINX**: reverse proxy + SSL per esporre in sicurezza le API di Rasa.  
