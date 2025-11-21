@@ -61,21 +61,18 @@ Un assistente vocale intelligente basato su **Rasa**, con gestione di file, conv
 - Funzione: mostra i file presenti nella cartella richiesta dall’utente.  
 - Input: disco e percorso della cartella.  
 - Output: lista dei file presenti.  
-- Emoji: 📂
 
 ### 2️⃣ Elimina file
 - Azione: `ActionEliminaFile`  
 - Funzione: elimina un file se esiste, gestendo errori.  
 - Input: percorso completo del file.  
 - Output: conferma eliminazione o errore.  
-- Emoji: 🗑️
 
 ### 3️⃣ Sposta file
 - Azione: `ActionSpostaFile`  
 - Funzione: sposta un file nella destinazione specificata, verifica percorso e permessi.  
 - Input: file e cartella di destinazione.  
 - Output: conferma spostamento o errore.  
-- Emoji: 📦
 
 ---
 
@@ -106,9 +103,6 @@ Fallback se intent non riconosciuto
 - Log Rasa aggiornati nella GUI:
   - Input utente: verde brillante  
   - Risposta bot: giallo  
-- Scroll automatico all’ultima riga dei log  
-- Finestra log alta quanto la pagina e larga quanto la visualizzazione  
-- Supporto syntax highlighting e tema Dracula tramite CSS  
 - Log direttamente letti da `logs/rasa.log` con aggiornamento live  
 
 ---
@@ -132,17 +126,11 @@ Fallback se intent non riconosciuto
 
 ## 🌐 Integrazione Home Assistant, NGINX e VPS
 
-### Architettura
-
-┌─────────────┐ ┌─────────────┐ ┌───────────┐
-│ Home │ <---> │ NGINX │ <---> │ VPS │
-│ Assistant │ │ Reverse │ │ Container │
-│ (Web UI / │ │ Proxy │ │ RASA + │
-│ MQTT / API) │ └─────────────┘ │ Actions) │
-└─────────────┘ └───────────┘
+TARS Assistant può essere integrato con **Home Assistant** (installato come Home Assistant OS su Raspberry Pi 5), utilizzando il microfono ReSpeaker Lite USB 2-Mic Array per input vocale.  
+Le API di Rasa e l’interfaccia **GuiRasa** sono esposte tramite **NGINX** con SSL su una **VPS Webdock**, mentre sia GuiRasa che Home Assistant sono hostati su un dominio personale per un accesso sicuro e centralizzato.
 
 - **VPS**: ospita i container Docker con Rasa, Action Server, GUI Blazor e log, provider utilizzato: **Webdock**.  
 - **Home Assistant**: installato come **Home Assistant OS su Raspberry Pi 5**, con il quale interagisce TARS tramite API REST con un custom component.  
-- **Audio Input**: ReSpeaker Lite - USB 2-Mic Array with Onboard AI Audio Processing Algorithms di SeeedStudio per input vocale.  
+- **Audio Input**: ReSpeaker Lite - USB 2-Mic Array di SeeedStudio per input vocale.  
 - **Dominio**: sia **GuiRasa** sia **Home Assistant** sono hostati su un dominio personale.  
 - **NGINX**: reverse proxy + SSL per esporre in sicurezza le API di Rasa.  
