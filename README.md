@@ -1,0 +1,116 @@
+# 🤖 TARS Assistant
+
+Un assistente vocale intelligente basato su **Rasa**, con gestione di file, conversazioni di base e fallback per input non riconosciuti.  
+
+![Rasa](https://img.shields.io/badge/Rasa-3.6.10-blue) ![Docker](https://img.shields.io/badge/Docker-Enabled-green) ![Python](https://img.shields.io/badge/Python-3.11-yellow) 
+
+---
+
+## 📂 Struttura del progetto
+
+- **`actions/`** → Contiene `actions.py` con tutte le azioni personalizzate.  
+- **`logs/`** → Log di Rasa per debug e monitoraggio.  
+- **`nlu.yml`** → Definizione di **intents** e **entities** per il NLU.  
+- **`rules.yml`** → Regole per associare intent ad azioni.  
+- **`domain.yml`** → Slot, utterances, intents e risposte predefinite.  
+- **`docker-compose.yml`** → Configurazione dei container Docker.  
+
+---
+
+## 🏗 Architettura dei container
+
+┌─────────────┐ ┌─────────────────┐
+│ RASA │ <---> │ Action Server │
+│ NLU+Dialog │ │ Custom Actions │
+└─────────────┘ └─────────────────┘
+
+
+- **Rasa**: gestisce NLU e dialoghi, monta cartelle progetto e log.  
+- **Action Server**: esegue le custom actions, monta cartelle locali per operazioni sui file.  
+- I container comunicano tramite rete interna Docker.  
+
+---
+
+## ⚙ Configurazione Rasa
+
+### 💡 Intents principali
+
+| Intent | Descrizione | Emoji |
+|--------|------------|-------|
+| `greet` | Saluti iniziali | 👋 |
+| `goodbye` | Addio / chiusura conversazione | 👋💨 |
+| `affirm` | Conferma | ✅ |
+| `deny` | Negazione | ❌ |
+| `mood_great` | Umore positivo | 😄 |
+| `mood_unhappy` | Umore negativo | 😞 |
+
+### 📁 Intents gestione file
+
+| Intent | Descrizione | Emoji |
+|--------|------------|-------|
+| `mostra_contenuto` | Mostra contenuto cartella | 📂 |
+| `elimina_file` | Elimina un file | 🗑️ |
+| `sposta_file` | Sposta un file in un'altra cartella | 📦 |
+
+---
+
+## 🛠 Custom Actions
+
+### 1️⃣ Mostra contenuto cartella
+- Azione: `ActionMostraContenuto`  
+- Funzione: mostra i file presenti nella cartella richiesta dall’utente.  
+- Input: disco e percorso della cartella.  
+- Output: lista dei file presenti.  
+- Emoji: 📂
+
+### 2️⃣ Elimina file
+- Azione: `ActionEliminaFile`  
+- Funzione: elimina un file se esiste, gestendo errori.  
+- Input: percorso completo del file.  
+- Output: conferma eliminazione o errore.  
+- Emoji: 🗑️
+
+### 3️⃣ Sposta file
+- Azione: `ActionSpostaFile`  
+- Funzione: sposta un file nella destinazione specificata, verifica percorso e permessi.  
+- Input: file e cartella di destinazione.  
+- Output: conferma spostamento o errore.  
+- Emoji: 📦
+
+---
+
+## 💬 Flusso della conversazione
+
+[Utente]
+│
+▼
+[Rasa NLU] --> Determina intent & entities
+│
+▼
+[RulePolicy] --> Invoca azione appropriata
+│
+▼
+[Action Server] --> Risposta all'utente
+▲
+│
+Fallback se intent non riconosciuto
+
+
+- Include fallback per input non riconosciuti.  
+- Gestisce conversazioni base stile TARS (saluti, addii, umore, conferme/negazioni).  
+
+---
+
+## 🔍 Debug & Test
+
+- Testare le azioni direttamente nel container Action Server con Python.  
+- Verificare connettività dei container (`ping`).  
+- Monitorare risorse e performance (`docker stats`).  
+- Controllare i log per errori o problemi di permessi.  
+
+---
+
+## 🚀 Aggiornamento dei container
+
+- Modifiche ad `actions.py` → riavviare **Action Server**.  
+- Modifiche Dockerfile → ricostruire il container. 
