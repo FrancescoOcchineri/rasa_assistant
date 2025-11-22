@@ -18,16 +18,23 @@ Un assistente vocale intelligente basato su **Rasa**, con gestione di file, conv
 
 ---
 
-## 🏗 Architettura dei container
+🏗 Architettura dei Container
 
-┌─────────────┐ ┌─────────────────┐  
-│ RASA │ <---> │ Action Server │  
-│ NLU+Dialog │ │ Custom Actions │  
-└─────────────┘ └─────────────────┘  
+L’infrastruttura si basa su due container distinti, ciascuno con un ruolo specifico, che collaborano tramite la rete interna di Docker.
 
-- **Rasa**: gestisce NLU e dialoghi, monta cartelle progetto e log.  
-- **Action Server**: esegue le custom actions, monta cartelle locali per operazioni sui file.  
-- I container comunicano tramite rete interna Docker.  
+🔹 Rasa
+
+Responsabile della NLU e della gestione dei dialoghi.
+Il container monta le cartelle del progetto e i log, così da permettere sviluppo, aggiornamenti e debugging senza ricostruzioni frequenti dell’immagine.
+
+🔹 Action Server
+
+Dedicato all’esecuzione delle custom actions.
+Monta directory locali per consentire operazioni sui file o l’accesso a risorse esterne necessarie durante l’elaborazione delle azioni.
+
+🔗 Comunicazione
+
+I due container comunicano attraverso la rete interna Docker, consentendo a Rasa di invocare in modo sicuro ed efficiente le funzionalità offerte dall’Action Server. 
 
 ---
 
