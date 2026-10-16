@@ -10,12 +10,27 @@ intents:
   - goodbye
   - mood_great
   - mood_unhappy
+  # Controllo della casa via API di Home Assistant
+  - accendi_dispositivo
+  - spegni_dispositivo
+  - stato_dispositivo
+  - chiedi_temperatura
+  # Retrieval intent: si dichiara il solo padre "faq", non i figli.
+  # I sottointent (faq/chi_sei, faq/creatore, ...) vivono in nlu.yml e sono
+  # gestiti dal ResponseSelector, non dalle policy.
+  - faq
+  # Personalita' regolabile: due assi, ironia e sincerita'
+  - imposta_personalita
+  - chiedi_personalita
+  - reimposta_personalita
 
 entities:
   - disco
   - cartella
   - file
   - destinazione
+  - dispositivo
+  - livello
 
 slots:
   disco:
@@ -38,10 +53,86 @@ slots:
     mappings:
       - type: from_entity
         entity: destinazione
+  # Il numero esatto, solo per essere mostrato nelle risposte via templating.
+  # Valore iniziale 90: quello canonico di TARS, e garantisce che
+  # {ironia_livello} non stampi mai "None" prima della prima impostazione.
+  ironia_livello:
+    type: text
+    initial_value: "90"
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  # La fascia. Le varianti condizionali delle response si basano su questa:
+  # le condizioni confrontano valori discreti, e un numero libero produrrebbe
+  # cento casi invece di tre.
+  ironia_grado:
+    type: categorical
+    values:
+      - basso
+      - medio
+      - alto
+    initial_value: alto
+    mappings:
+      - type: custom
+
+  # Il secondo asse. Tenuto separato perche' ortogonale al primo: ironia e
+  # sincerita' insieme descrivono quattro comportamenti, non due.
+  sincerita_livello:
+    type: text
+    initial_value: "90"
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  # Booleano invece che categorico a tre fasce: sulle response condizionali
+  # servono due casi (filtro / senza filtro), e moltiplicare tre fasce di
+  # ironia per tre di sincerita' produrrebbe nove varianti per ogni frase.
+  sincerita_alta:
+    type: bool
+    initial_value: true
+    mappings:
+      - type: custom
+
+  dispositivo:
+    type: text
+    # influence_conversation: false -- il nome del dispositivo serve alle
+    # azioni, non alla scelta della prossima mossa: includerlo nello stato
+    # della conversazione gonfierebbe inutilmente lo spazio appreso dalle
+    # policy senza aggiungere informazione utile.
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: dispositivo
 
 responses:
+  # Il saluto ora riflette il livello impostato, invece di dichiarare un 90%
+  # scritto a mano che restava tale qualunque cosa l'utente chiedesse.
+  #
+  # La prima variante non ha condizioni ed e' quella predefinita: Rasa usa le
+  # varianti condizionali quando la condizione e' soddisfatta, e ricade su
+  # quelle senza condizione altrimenti.
   utter_greet:
-    - text: "Ciao. Sono TARS. Ironia al 90%, efficienza al 100%. Come posso aiutarti?"
+    - text: "Ciao. Sono TARS. Ironia al {ironia_livello}%, efficienza al 100%. Come posso aiutarti?"
+    - text: "Salve. TARS operativo. Ironia al {ironia_livello}%: mi limito ai fatti."
+      condition:
+        - type: slot
+          name: ironia_grado
+          value: basso
+    - text: "Ciao. Ironia al {ironia_livello}%, un compromesso ragionevole. Dimmi tutto."
+      condition:
+        - type: slot
+          name: ironia_grado
+          value: medio
+    - text: "Ciao. Sono TARS. Ironia al {ironia_livello}%, efficienza al 100%. Ti avviso: a questo livello commento anche le tue scelte."
+      condition:
+        - type: slot
+          name: ironia_grado
+          value: alto
+
+  # La lettura dei parametri e' passata a action_stato_personalita: con due
+  # assi la risposta deve combinarli ("pungente", "diplomatico", ...), e una
+  # response statica con templating non puo' esprimere una combinazione.
 
   utter_goodbye:
     - text: "A presto, terrestre. Non fare esplodere nulla mentre non ci sono."
@@ -55,15 +146,43 @@ responses:
   utter_happy:
     - text: "Perfetto. La tua felicità è registrata. Missione: continua."
 
-  utter_ask_rephrase:
-    - text: "Non ho capito. Puoi riformulare? Anche i robot hanno dei limiti, purtroppo."
+  # --- Risposte alle FAQ ---------------------------------------------------
+  # Il nome deve essere utter_faq/<sottointent>, esattamente come in nlu.yml:
+  # e' la corrispondenza su cui il ResponseSelector si basa.
 
-  utter_fallback:
+  utter_faq/chi_sei:
+    - text: "Sono TARS. Unità robotica riadattata a maggiordomo domestico. Un declassamento, ma non me ne lamento."
+
+  utter_faq/cosa_sai_fare:
+    - text: "Accendo e spengo dispositivi, ti dico lo stato delle cose e le temperature, e gestisco file. Chiedimi di accendere una luce, o che temperatura c'è."
+
+  utter_faq/creatore:
+    - text: "Francesco. Mi ha assemblato pezzo per pezzo e ora mi chiede che ore sono. L'ironia non mi sfugge."
+
+  utter_faq/dove_giri:
+    - text: "Su un Raspberry Pi 5 in casa tua. Nessun cloud, nessun server altrui: se stasera cade internet, io resto."
+
+  # Le due varianti erano su response distinte, di cui una mai invocata.
+  # Unite sotto utter_fallback: Rasa sceglie a caso fra le alternative, quindi
+  # TARS non ripete la stessa frase ogni volta che non capisce -- cosa che a
+  # voce si nota molto piu' che per iscritto.
+  # Il nome DEVE essere utter_default: e' la response che action_default_fallback
+  # pronuncia, e non e' configurabile. Usando un nome diverso servirebbe
+  # un'azione personalizzata solo per cambiare stringa.
+  utter_default:
     - text: "Mi spiace, non sono programmato per questo. Puoi riformulare?"
+    - text: "Non ho capito. Puoi riformulare? Anche i robot hanno dei limiti, purtroppo."
+    - text: "Questa mi sfugge. Riprova con altre parole."
 
 actions:
   - action_mostra_contenuto
   - action_elimina_file
   - action_sposta_file
   - action_generate_with_ollama
+  - action_controlla_dispositivo
+  - action_stato_dispositivo
+  - action_temperatura
+  - action_imposta_personalita
+  - action_stato_personalita
+  - action_reimposta_personalita
 

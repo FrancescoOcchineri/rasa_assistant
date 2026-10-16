@@ -1,49 +1,52 @@
 is_global = true
 build_property.TargetFramework = net6.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v6.0
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
+build_property.EntryPointFilePath = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = GuiRasa
 build_property.RootNamespace = GuiRasa
-build_property.ProjectDir = R:\Utente\rasa\GuiRasa\
+build_property.ProjectDir = C:\Users\Utente\Desktop\rasa\GuiRasa\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = R:\Utente\rasa\GuiRasa
+build_property.MSBuildProjectDirectory = C:\Users\Utente\Desktop\rasa\GuiRasa
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 6.0
 build_property.EnableCodeStyleSeverity = 
 
-[R:/Utente/rasa/GuiRasa/App.razor]
+[C:/Users/Utente/Desktop/rasa/GuiRasa/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[R:/Utente/rasa/GuiRasa/Pages/Index.razor]
+[C:/Users/Utente/Desktop/rasa/GuiRasa/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[R:/Utente/rasa/GuiRasa/Pages/Log.razor]
+[C:/Users/Utente/Desktop/rasa/GuiRasa/Pages/Log.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9nLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[R:/Utente/rasa/GuiRasa/_Imports.razor]
+[C:/Users/Utente/Desktop/rasa/GuiRasa/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[R:/Utente/rasa/GuiRasa/Shared/MainLayout.razor]
+[C:/Users/Utente/Desktop/rasa/GuiRasa/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-9yg42kquq6
 
-[R:/Utente/rasa/GuiRasa/Pages/Error.cshtml]
+[C:/Users/Utente/Desktop/rasa/GuiRasa/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[R:/Utente/rasa/GuiRasa/Pages/_Host.cshtml]
+[C:/Users/Utente/Desktop/rasa/GuiRasa/Pages/_Host.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

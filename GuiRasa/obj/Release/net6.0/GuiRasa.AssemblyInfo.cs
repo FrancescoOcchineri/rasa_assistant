@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GuiRasa")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c86d7e33a27698772a6643628d85335b567933e3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e486bdf8e07aaba2078988ce6e071db4d2fc3884")]
 [assembly: System.Reflection.AssemblyProductAttribute("GuiRasa")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GuiRasa")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

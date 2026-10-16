@@ -25,7 +25,7 @@ nlu:
     - certo
     - giusto
 
-- intent: denycd
+- intent: deny
   examples: |
     - no
     - assolutamente no
@@ -61,19 +61,178 @@ nlu:
   examples: |
     - elimina il file [C:\\Users\\User\\file.txt](file)
     - cancella [D:\\Documenti\\report.docx](file)
-    - [C:\\Test\\abc.txt](file)
+    - rimuovi il file [R:\\backup\\vecchio.zip](file)
+    - puoi eliminare [D:\\temp\\scarto.log](file)?
+    # RIMOSSO: un esempio costituito dal solo percorso, senza verbo.
+    # Insegnava al modello che qualunque stringa somigliante a un percorso
+    # significa "cancella" -- su un'azione distruttiva e' il peggio possibile.
 
-- intent: sposta_fileb
+- intent: sposta_file
   examples: |
     - sposta il file [C:\\Users\\User\\file.txt](file) in [D:\\Backup](destinazione)
     - muovi [D:\\Download\\immagine.png](file) in [E:\\Immagini](destinazione)
     - copia [F:\\temp\\file.doc](file) in [G:\\Archivio](destinazione)
 
-- intent: nlu_fallback
+# RIMOSSO: l'intent "nlu_fallback" definito a mano.
+# E' un intent RISERVATO, generato a runtime dal FallbackClassifier quando la
+# confidenza scende sotto soglia. Definirlo con esempi -- che peraltro erano
+# frasi del bot, non dell'utente -- insegnava al modello a classificare le
+# proprie risposte, e impediva al fallback reale di funzionare.
+
+# --- Controllo della casa ---------------------------------------------------
+
+- intent: accendi_dispositivo
   examples: |
-    - Non ho capito, riprova.
-    - Scusa, non sono sicuro di aver capito.
-    - Puoi riformulare la domanda?
-    - Questo supera le mie capacità attuali.
-    - Mi dispiace, non riesco a gestire questa richiesta.
+    - accendi la [luce del salotto](dispositivo)
+    - accendi le [luci della cucina](dispositivo)
+    - puoi accendere il [ventilatore](dispositivo)?
+    - attiva la [lampada della camera](dispositivo)
+    - accendi il [riscaldamento](dispositivo)
+    - TARS accendi la [luce dell'ingresso](dispositivo)
+    - fai partire la [macchina del caffè](dispositivo)
+    - accendi la [televisione](dispositivo)
+
+- intent: spegni_dispositivo
+  examples: |
+    - spegni la [luce del salotto](dispositivo)
+    - spegni le [luci della cucina](dispositivo)
+    - puoi spegnere il [ventilatore](dispositivo)?
+    - disattiva la [lampada della camera](dispositivo)
+    - spegni il [riscaldamento](dispositivo)
+    - TARS spegni la [televisione](dispositivo)
+    - chiudi la [luce del bagno](dispositivo)
+    - spegni tutto in [salotto](dispositivo)
+
+- intent: stato_dispositivo
+  examples: |
+    - com'è la [luce del salotto](dispositivo)?
+    - è accesa la [lampada della camera](dispositivo)?
+    - qual è lo stato del [ventilatore](dispositivo)?
+    - la [porta d'ingresso](dispositivo) è aperta?
+    - controlla la [finestra della cucina](dispositivo)
+    - dimmi com'è il [riscaldamento](dispositivo)
+    - verifica la [luce del bagno](dispositivo)
+
+- intent: chiedi_temperatura
+  examples: |
+    - che temperatura c'è
+    - quanti gradi ci sono
+    - dimmi la temperatura
+    - che temperatura c'è in [salotto](dispositivo)
+    - quanti gradi in [camera](dispositivo)
+    - fa caldo in [cucina](dispositivo)?
+    - qual è la temperatura della [camera da letto](dispositivo)
+    - temperatura [bagno](dispositivo)
+
+# --- Espressioni regolari per le entita' strutturate ------------------------
+#
+# I percorsi file hanno una forma regolare: estrarli con una regex e' preciso
+# e non richiede esempi di addestramento. Chiederlo a DIET partendo da tre
+# frasi non funzionera' mai in modo affidabile -- e il log di avvio sul
+# Raspberry lo confermava, segnalando che RegexEntityExtractor non riusciva
+# nemmeno a persistersi per mancanza di regex.
+#
+# Solo per "file", non per "destinazione": distinguere per sola forma un
+# percorso di cartella da uno di file e' inaffidabile, e due regex che si
+# sovrappongono sulla stessa stringa producono estrazioni contraddittorie.
+# Per "destinazione" la strada giusta sono piu' esempi di addestramento, dove
+# il contesto ("... in D:\Backup") fa il lavoro.
+
+- regex: file
+  examples: |
+    - [A-Za-z]:[\\/][^\r\n]*\.[A-Za-z0-9]{1,8}
+
+# Il livello di ironia e' un numero: una regex lo estrae con precisione, senza
+# che DIET debba imparare a riconoscere le cifre dagli esempi.
+- regex: livello
+  examples: |
+    - \b\d{1,3}\b
+
+# --- Personalita' regolabile ------------------------------------------------
+
+- intent: imposta_personalita
+  examples: |
+    - imposta l'ironia al [60](livello)%
+    - ironia al [20](livello)
+    - metti l'ironia al [100](livello) per cento
+    - porta l'umorismo al [45](livello)%
+    - imposta il livello di ironia a [75](livello)
+    - abbassa l'ironia
+    - alza l'ironia
+    - riduci l'umorismo
+    - aumenta l'ironia
+    - sii meno ironico
+    - sii più ironico
+    - ironia al minimo
+    - ironia al massimo
+    - imposta la sincerità al [30](livello)%
+    - sincerità al [80](livello)
+    - metti l'onestà al [50](livello) per cento
+    - abbassa la sincerità
+    - alza l'onestà
+    - sii più diplomatico
+    - sii più diretto
+    - sii meno sincero
+
+- intent: chiedi_personalita
+  examples: |
+    - a quanto è l'ironia
+    - qual è il tuo livello di ironia
+    - quanto sei ironico
+    - dimmi il livello di umorismo
+    - a che percentuale sei
+    - come sei impostato
+    - quali sono i tuoi parametri
+    - dimmi la tua configurazione
+    - a quanto è la sincerità
+
+- intent: reimposta_personalita
+  examples: |
+    - reimposta la personalità
+    - torna ai valori di fabbrica
+    - ripristina i parametri predefiniti
+    - resetta la personalità
+    - torna come eri
+
+# --- FAQ: risposte secche, senza storie ne' regole dedicate ----------------
+#
+# I retrieval intent sono il meccanismo giusto per le domande con risposta
+# fissa: una sola regola in rules.yml li serve tutti, e aggiungerne uno nuovo
+# costa due righe qui piu' una response nel domain. E' il modo economico di
+# far sembrare TARS molto piu' capace di quanto sia.
+#
+# E' anche cio' che da' finalmente un lavoro al ResponseSelector, che nella
+# pipeline c'era senza avere nulla da selezionare.
+
+- intent: faq/chi_sei
+  examples: |
+    - chi sei
+    - come ti chiami
+    - dimmi chi sei
+    - presentati
+    - qual è il tuo nome
+
+- intent: faq/cosa_sai_fare
+  examples: |
+    - cosa sai fare
+    - cosa puoi fare
+    - quali sono le tue funzioni
+    - a cosa servi
+    - dimmi cosa sai fare
+    - aiuto
+
+- intent: faq/creatore
+  examples: |
+    - chi ti ha creato
+    - chi ti ha programmato
+    - da chi sei stato costruito
+    - chi è il tuo creatore
+
+- intent: faq/dove_giri
+  examples: |
+    - dove giri
+    - su cosa giri
+    - dove sei installato
+    - su che hardware sei
+    - dove vivi
 
