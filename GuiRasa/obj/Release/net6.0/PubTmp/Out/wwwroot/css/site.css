@@ -2,6 +2,7 @@
 
 html, body {
     font-family: "Cascadia Code", sans-serif;
+    background-color: #44475a;
 }
 
 h1:focus {
@@ -71,12 +72,12 @@ a, .btn-link {
 }
 
 option {
-    border-bottom: 1px solid #ddd; /* Aggiunge una linea di separazione tra le option */
+    border-bottom: 1px solid #ddd;
     padding: 10px;
 }
 
 #textUser {
-    background: #484848;
+    background: #282a36;
     color: white;
 }
 
@@ -84,3 +85,118 @@ option {
     color: white;
     padding: 5px;
 }
+
+.layout-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #282a36;
+    color: white;
+    padding: 1rem;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.sidebar.closed {
+    transform: translateX(-100%);
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-body {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 1rem;
+}
+
+.sidebar-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    margin-left: 250px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+@media (min-width: 768px) {
+    .sidebar.closed ~ .main-content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        height: 100%;
+        z-index: 1000;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+/* Bottone per aprire sidebar */
+.open-sidebar-button {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 9999;
+    background-color: #f8f8f2;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.terminal-log .error {
+    color: #ff5555;
+    font-weight: bold;
+}
+
+.terminal-log .debug {
+    color: #8be9fd;
+}
+
+.terminal-log .info {
+    color: #50fa7b;
+}
+
+
+

@@ -138,7 +138,7 @@ class ActionGenerateWithOllama(Action):
                     "prompt": user_input,
                     "stream": False
                 },
-                timeout=5
+                timeout=120
             )
             response.raise_for_status()  
             data = response.json()

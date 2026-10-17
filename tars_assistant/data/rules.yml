@@ -1,3 +1,5 @@
+version: "3.1"
+
 rules:
 
 # Regole funzionali
@@ -15,6 +17,53 @@ rules:
   steps:
     - intent: sposta_file
     - action: action_sposta_file
+
+# Controllo della casa via Home Assistant.
+# Accendi e spegni condividono la stessa azione: la direzione viene dedotta
+# dall'intent riconosciuto, evitando due implementazioni quasi identiche.
+- rule: Accendi dispositivo
+  steps:
+    - intent: accendi_dispositivo
+    - action: action_controlla_dispositivo
+
+- rule: Spegni dispositivo
+  steps:
+    - intent: spegni_dispositivo
+    - action: action_controlla_dispositivo
+
+- rule: Stato dispositivo
+  steps:
+    - intent: stato_dispositivo
+    - action: action_stato_dispositivo
+
+- rule: Temperatura
+  steps:
+    - intent: chiedi_temperatura
+    - action: action_temperatura
+
+# Una sola regola serve TUTTE le FAQ, presenti e future: il ResponseSelector
+# sceglie la response giusta in base al sottointent riconosciuto. Aggiungere
+# una FAQ non richiede di toccare questo file.
+- rule: Risposta alle FAQ
+  steps:
+    - intent: faq
+    - action: utter_faq
+
+# Personalita' regolabile: due assi, ironia e sincerita'
+- rule: Imposta un parametro di personalita
+  steps:
+    - intent: imposta_personalita
+    - action: action_imposta_personalita
+
+- rule: Riferisci i parametri di personalita
+  steps:
+    - intent: chiedi_personalita
+    - action: action_stato_personalita
+
+- rule: Riporta la personalita ai valori di fabbrica
+  steps:
+    - intent: reimposta_personalita
+    - action: action_reimposta_personalita
 
 # Conversazione base stile TARS
 - rule: Saluto iniziale
@@ -38,18 +87,27 @@ rules:
     - action: utter_cheer_up
     - action: utter_did_that_help
 
-- rule: Conferma (dopo mood_unhappy)
-  steps:
-    - intent: affirm
-    - action: utter_happy
+# RIMOSSE: le due regole su affirm e deny.
+# Il commento diceva "dopo mood_unhappy", ma le regole non hanno contesto
+# conversazionale: qualunque "sì" in qualunque momento finiva su utter_happy.
+# Contraddicevano inoltre le storie in stories.yml, che gestiscono quei turni
+# correttamente perche' ricordano cosa e' stato detto prima. Le storie
+# bastano; le regole erano una fonte di conflitti.
 
-- rule: Negazione (dopo mood_unhappy)
-  steps:
-    - intent: deny
-    - action: utter_goodbye
-
-# Fallback per frasi non riconosciute
-- rule: Fallback to Ollama
+# Fallback per frasi non riconosciute.
+#
+# Prima invocava action_generate_with_ollama, che sul Raspberry cerca
+# http://ollama:11434 -- servizio inesistente. L'azione intercetta l'errore e
+# risponde "Errore di comunicazione con il servizio di generazione": un
+# messaggio tecnico che l'utente non deve mai sentire.
+#
+# utter_fallback esisteva nel domain, scritta bene, e non era invocata da
+# nessuna parte. Ora lo e'.
+#
+# Per riattivare la generazione LLM in futuro basta rimettere qui l'azione --
+# ma su questo hardware la CPU impone 10-25 secondi di attesa, e la pipeline
+# vocale e' seriale: si sommerebbero a tutto il resto.
+- rule: Fallback per frasi non riconosciute
   steps:
     - intent: nlu_fallback
-    - action: action_generate_with_ollama
+    - action: action_default_fallback

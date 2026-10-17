@@ -29,6 +29,28 @@ stories:
     - intent: deny
     - action: utter_goodbye
 
+# Le due storie sopra cominciano entrambe con un saluto. Ma nessuno saluta un
+# assistente vocale prima di dirgli qualcosa: nell'uso reale la conversazione
+# comincia direttamente dal contenuto. Senza queste due varianti,
+# MemoizationPolicy non aggancia il percorso e la conferma finisce nel
+# fallback -- verificato sul campo.
+
+- story: umore negativo senza saluto, conferma
+  steps:
+    - intent: mood_unhappy
+    - action: utter_cheer_up
+    - action: utter_did_that_help
+    - intent: affirm
+    - action: utter_happy
+
+- story: umore negativo senza saluto, negazione
+  steps:
+    - intent: mood_unhappy
+    - action: utter_cheer_up
+    - action: utter_did_that_help
+    - intent: deny
+    - action: utter_goodbye
+
 - story: mostra contenuto cartella
   steps:
     - intent: mostra_contenuto

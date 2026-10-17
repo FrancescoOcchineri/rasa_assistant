@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "W+y4SXuSb1A=",
+  "dgSpecHash": "X+judPQWbBE=",
   "success": true,
-  "projectFilePath": "R:\\Utente\\rasa\\GuiRasa\\GuiRasa.csproj",
+  "projectFilePath": "C:\\Users\\Utente\\Desktop\\rasa\\GuiRasa\\GuiRasa.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Utente\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\9.0.4\\microsoft.bcl.asyncinterfaces.9.0.4.nupkg.sha512",
     "C:\\Users\\Utente\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",

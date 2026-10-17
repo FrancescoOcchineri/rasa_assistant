@@ -1,0 +1,8 @@
+Dopo aver sovrascritto i file dell’app (tramite FileZilla),
+Devi eseguire il comando per riavviare il servizio e caricare le modifiche:
+
+- sudo systemctl restart blazorapp.service
+
+Se vuoi controllare lo stato del servizio, fai:
+
+- sudo systemctl status blazorapp.service
